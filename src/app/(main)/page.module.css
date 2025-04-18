@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.nav {
+    background-color: aqua;
+    height: 120px;
+    width: 30wh;
+    margin: 50px auto;
+    position: fixed;
+    top: 50px
+}

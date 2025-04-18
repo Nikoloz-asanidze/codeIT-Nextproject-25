@@ -72,3 +72,11 @@
     background-color: #1c4ed8;
   }
     
+ .haventAccount {
+  border: none;
+  background-color: transparent;
+  padding: 10px 20px;
+  width: 100%;
+  margin-top: 1rem;
+  color: #2e6ef7;
+ } 
