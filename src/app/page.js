@@ -1,70 +1,136 @@
-"use client"
+"use client";
 import styles from "./page.module.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [login, setLogin] = useState(true);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const router = useRouter();
 
-  const handleLoginChange = () => {
-    return setLogin(!login)
-  }
+  const handleLoginChange = () => setLogin(!login);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      fetch("https://fakestoreapi.com/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: username,
-          password: "m38rmF$",
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.token) {
-            router.replace("/products");
-          }
+    if (login) {
+      try {
+        const res = await fetch("https://fakestoreapi.com/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: username,
+            password: "m38rmF$", 
+          }),
         });
-    } catch (error) {
-      console.log(error.message);
+
+        const data = await res.json();
+        if (data.token) {
+          router.replace("/products");
+        } else {
+          alert("Login failed.");
+        }
+      } catch (error) {
+        console.error("Login error:", error.message);
+      }
+    } else {
+      try {
+        const res = await fetch("https://fakestoreapi.com/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            username: username,
+            password: password,
+          }),
+        });
+
+        const data = await res.json();
+        if (data.id) {
+          router.replace("/products");
+        } else {
+          alert("Registration failed.");
+        }
+      } catch (error) {
+        console.error("Register error:", error.message);
+      }
     }
   };
 
   return (
     <main className={styles.main}>
       <form className={styles.container} onSubmit={handleSubmit}>
-       {login ? <>
-        <h3 className={styles.signin}>Sign In</h3>
-        <p className={styles.desc}>please sign in to access market.</p>
-        <input onChange={(event) => {
-           return setUsername(event.target.value);
-        }}
-         className={styles.input} 
-         placeholder="username" />
+        {login ? (
+          <>
+            <h3 className={styles.signin}>Sign In</h3>
+            <p className={styles.desc}>Please sign in to access the market.</p>
 
-        <input
-          onChange={(event) => {
-            setPassword(event.target.value)
-          }}
-          className={styles.input}
-          type="password"
-          placeholder="password"
-        />
-        
-          <button className={styles.button} type="submit">Sign In</button>
-        
-        <button onClick={handleLoginChange} className={styles.haventAccount}>haven't account? sing up</button>
-       </> : <>
-       <h3 className={styles.signin}>Sign up</h3>
-       <button onClick={handleLoginChange} className={styles.haventAccount}>already have account? sing in</button>
-       </>}
+            <input
+              onChange={(e) => setUsername(e.target.value)}
+              className={styles.input}
+              placeholder="username"
+              required
+            />
+
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              type="password"
+              placeholder="password"
+              required
+            />
+
+            <button className={styles.button} type="submit">Sign In</button>
+
+            <button
+              type="button"
+              onClick={handleLoginChange}
+              className={styles.haventAccount}
+            >
+              Don't have an account? Sign up
+            </button>
+          </>
+        ) : (
+          <>
+            <h3 className={styles.signin}>Sign Up</h3>
+            <p>Please register to access the market</p>
+
+            <input
+              onChange={(e) => setUsername(e.target.value)}
+              className={styles.input}
+              placeholder="username"
+              required
+            />
+
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
+              placeholder="email"
+              required
+            />
+
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              type="password"
+              placeholder="password"
+              required
+            />
+
+            <button className={styles.button} type="submit">Register</button>
+
+            <button
+              type="button"
+              onClick={handleLoginChange}
+              className={styles.haventAccount}
+            >
+              Already have an account? Sign in
+            </button>
+          </>
+        )}
       </form>
     </main>
   );
