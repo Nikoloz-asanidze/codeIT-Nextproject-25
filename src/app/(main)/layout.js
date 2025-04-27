@@ -32,6 +32,15 @@ console.log('clean up')
         >
           Profile
         </Link>
+        <Link
+          className={`
+            ${styles.link}
+            ${pathname.includes("/cart") ? styles.activeLink : styles.inActiveLink}
+            `}
+          href="/cart"
+        >
+          cart
+        </Link>
       </nav>
       {children}
     </div>
