@@ -1,4 +1,4 @@
-import ProductItem from "@/components/ProductItem/ProductItem";
+import ProductItem from "@/components/ProductItem/ProductItem";  
 import styles from "./page.module.css";
 import Link from "next/link";
 
@@ -10,7 +10,6 @@ const Products = async () => {
   } catch (error) {
     throw Error(error);
   }
-  console.log("prefetched");
 
   return (
     <div className={styles.container}>
@@ -19,8 +18,18 @@ const Products = async () => {
           <ProductItem item={product} />
         </Link>
       ))}
+
+
+    <div className={styles.container}>
+      <AddToCart product={products}/>
+    </div>
+  
+
     </div>
   );
 };
 
 export default Products;
+
+
+
