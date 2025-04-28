@@ -10,7 +10,6 @@ const Products = async () => {
   } catch (error) {
     throw Error(error);
   }
-  console.log("prefetched");
 
   return (
     <div className={styles.container}>
@@ -19,7 +18,7 @@ const Products = async () => {
           <ProductItem item={product} />
         </Link>
       ))}
-    </div>
+     </div>
   );
 };
 
