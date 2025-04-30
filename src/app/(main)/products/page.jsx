@@ -1,4 +1,4 @@
-import ProductItem from "@/components/ProductItem/ProductItem";  
+import ProductItem from "@/components/ProductItem/ProductItem";
 import styles from "./page.module.css";
 import Link from "next/link";
 
@@ -18,18 +18,10 @@ const Products = async () => {
           <ProductItem item={product} />
         </Link>
       ))}
-
-
-    <div className={styles.container}>
-      <AddToCart product={products}/>
-    </div>
-  
-
-    </div>
+     </div>
   );
 };
 
 export default Products;
-
 
 
