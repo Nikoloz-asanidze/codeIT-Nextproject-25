@@ -14,3 +14,5 @@
  }
  
  export default AddToCart;
+
+//  console.log
